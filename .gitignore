@@ -1,0 +1,9 @@
+**/.terraform.lock.hcl
+**/.terraform.lock.lock.info
+**/terraform.tfstate
+**/terraform.tfstate.backup
+**/.terraform
+**/client.ovpn
+**/**/**/client.ovpn
+
+
