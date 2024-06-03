@@ -15,3 +15,8 @@ variable "prefix" {
 }
 
 
+variable "environment" {
+    type = string
+    default = ""
+
+}

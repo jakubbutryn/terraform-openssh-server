@@ -2,7 +2,7 @@
 
 # Create virtual network
 resource "azurerm_virtual_network" "this" {
-  name                = "${var.prefix}-vnet"
+  name                = "${var.prefix}-${var.environment}-vnet"
   address_space       = [var.address_space]
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -10,7 +10,7 @@ resource "azurerm_virtual_network" "this" {
 
 # Create subnet
 resource "azurerm_subnet" "this" {
-  name                 = "${var.prefix}-subnet"
+  name                 = "${var.prefix}-${var.environment}-subnet"
   resource_group_name  =  var.resource_group_name
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [var.address_prefixes]
@@ -20,7 +20,7 @@ resource "azurerm_subnet" "this" {
 
 # Create Network Security Group and rules
 resource "azurerm_network_security_group" "this" {
-  name                = "${var.prefix}-nsg"
+  name                = "${var.prefix}-${var.environment}-nsg"
   location            = var.location
   resource_group_name =  var.resource_group_name
 
