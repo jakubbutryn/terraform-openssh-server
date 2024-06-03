@@ -1,6 +1,6 @@
 # Create public IPs
 resource "azurerm_public_ip" "my_terraform_public_ip" {
-  name                = "${var.prefix}-public-ip"
+  name                = "${var.prefix}-${var.environment}-public-ip"
   location            = var.location
   resource_group_name = var.resource_group_name
   allocation_method   = "Dynamic"
@@ -9,7 +9,7 @@ resource "azurerm_public_ip" "my_terraform_public_ip" {
 
 # Create network interface
 resource "azurerm_network_interface" "my_terraform_nic" {
-  name                = "${var.prefix}-nic"
+  name                = "${var.prefix}-${var.environment}-nic"
   location            = var.location
   resource_group_name = var.resource_group_name
 
@@ -47,7 +47,7 @@ resource "random_password" "password" {
 resource "azurerm_linux_virtual_machine" "main" {
   depends_on = [tls_private_key.rsa-4096
   ]
-  name                            = "${var.prefix}-vm"
+  name                            = "${var.prefix}-${var.environment}-vm"
   admin_username                  = "adminuser"
   admin_password                  = random_password.password.result
   location                        = var.location
@@ -108,7 +108,7 @@ resource "null_resource" "localScript" {
     always_run = "${timestamp()}"
   }
   provisioner "local-exec" {
-    command     = "azcopy copy 'https://${var.azurerm_storage_account_name}.blob.core.windows.net/${var.azurerm_storage_container_name}/client.ovpn${(nonsensitive(var.azurerm_storage_account_sas))}' '${path.module}' "
+    command     = "azcopy copy 'https://${var.azurerm_storage_account_name}.blob.core.windows.net/${var.azurerm_storage_container_name}/client.ovpn${(nonsensitive(var.azurerm_storage_account_sas))}' '../${var.environment}' "
     interpreter = ["PowerShell", "-Command"]
   }
 

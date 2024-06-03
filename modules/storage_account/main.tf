@@ -1,5 +1,5 @@
 resource "azurerm_storage_account" "this" {
-  name                     = "jb1234"
+  name                     = join("",[var.prefix,var.environment,"sa"])
   resource_group_name      =  var.resource_group_name
   location                 = var.location
   account_tier             = "Standard"
@@ -7,7 +7,7 @@ resource "azurerm_storage_account" "this" {
 
 }
 resource "azurerm_storage_container" "this" {
-  name                  = "jbcontainercontainer"
+  name                  = "${var.prefix}${var.environment}container"
   storage_account_name  = azurerm_storage_account.this.name
   container_access_type = "private"
 }

@@ -39,3 +39,8 @@ variable "network_security_group_id" {
     default = ""
 
 }
+variable "environment" {
+    type = string
+    default = ""
+
+}

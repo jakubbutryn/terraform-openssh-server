@@ -7,4 +7,14 @@ variable "location" {
     default = ""
 
 }
+variable "environment" {
+    type = string
+    default = ""
 
+}
+
+variable "prefix" {
+    type = string
+    default = ""
+
+}

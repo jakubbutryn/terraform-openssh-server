@@ -24,3 +24,8 @@ variable "address_prefixes" {
     default = ""
 
 }
+variable "environment" {
+    type = string
+    default = ""
+
+}

@@ -4,6 +4,7 @@
 **/terraform.tfstate.backup
 **/.terraform
 **/client.ovpn
+**/**/client.ovpn
 **/**/**/client.ovpn
 
 

@@ -36,6 +36,7 @@ module "network" {
   prefix              = var.prefix
   address_space       = var.address_space
   address_prefixes    = var.address_prefixes
+  environment = var.environment
 
 
 }
