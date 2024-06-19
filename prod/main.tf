@@ -4,7 +4,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~>3.0"
+      version = "3.106.1"
     }
     random = {
       source  = "hashicorp/random"
@@ -51,7 +51,7 @@ module "storage_account" {
 
 }
 module "public_vm" {
-  depends_on                     = [module.storage_account]
+  depends_on                     = [module.storage_account,module.network]
   source                         = "../modules/vm"
   resource_group_name            = module.resource_groups.azurerm_resource_group_name
   location                       = var.location
