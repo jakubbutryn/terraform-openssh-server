@@ -4,6 +4,9 @@ resource "azurerm_public_ip" "my_terraform_public_ip" {
   location            = var.location
   resource_group_name = var.resource_group_name
   allocation_method   = "Dynamic"
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 
@@ -19,12 +22,14 @@ resource "azurerm_network_interface" "my_terraform_nic" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.my_terraform_public_ip.id
   }
+
 }
 
 # Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "example" {
+resource "azurerm_network_interface_security_group_association" "this" {
   network_interface_id      = azurerm_network_interface.my_terraform_nic.id
   network_security_group_id = var.network_security_group_id 
+
 }
 
 
@@ -45,7 +50,8 @@ resource "random_password" "password" {
 
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "main" {
-  depends_on = [tls_private_key.rsa-4096
+  depends_on = [tls_private_key.rsa-4096,
+  azurerm_network_interface_security_group_association.this
   ]
   name                            = "${var.prefix}-${var.environment}-vm"
   admin_username                  = "adminuser"
