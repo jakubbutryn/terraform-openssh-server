@@ -6,10 +6,16 @@ resource "azurerm_storage_account" "this" {
   account_replication_type = "LRS"
 
 }
+resource "time_sleep" "wait_30_seconds" {
+  depends_on = [azurerm_storage_account.this]
+
+  create_duration = "5s"
+}
 resource "azurerm_storage_container" "this" {
   name                  = "${var.prefix}${var.environment}container"
   storage_account_name  = azurerm_storage_account.this.name
   container_access_type = "private"
+  depends_on = [ time_sleep.wait_30_seconds ]
 }
 data "azurerm_storage_account_sas" "this" {
   connection_string = azurerm_storage_account.this.primary_connection_string
@@ -46,4 +52,5 @@ data "azurerm_storage_account_sas" "this" {
     tag     = true
     filter  = true
   }
+
 }

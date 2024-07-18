@@ -4,7 +4,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.106.1"
+      version = "3.111.0"
     }
     random = {
       source  = "hashicorp/random"
@@ -36,6 +36,7 @@ module "network" {
   prefix              = var.prefix
   address_space       = var.address_space
   address_prefixes    = var.address_prefixes
+   environment         = var.environment
 
 
 }

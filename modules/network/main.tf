@@ -6,6 +6,8 @@ resource "azurerm_virtual_network" "this" {
   address_space       = [var.address_space]
   location            = var.location
   resource_group_name = var.resource_group_name
+  depends_on = [ azurerm_network_security_group.this ]
+
 }
 
 # Create subnet
@@ -14,6 +16,8 @@ resource "azurerm_subnet" "this" {
   resource_group_name  =  var.resource_group_name
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [var.address_prefixes]
+  depends_on = [ azurerm_virtual_network.this ]
+
 }
 
 
@@ -70,4 +74,5 @@ resource "azurerm_network_security_group" "this" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+
 }
