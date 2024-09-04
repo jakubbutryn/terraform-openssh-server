@@ -96,6 +96,7 @@ resource "null_resource" "remoteScript" {
     inline = [
       "wget -O openvpn.sh https://get.vpnsetup.net/ovpn",
       "sudo bash openvpn.sh --auto",
+      "sudo bash openvpn.sh --auto",
       "sudo bash -c 'cd /usr/local/bin; curl -L https://aka.ms/downloadazcopy-v10-linux | tar --strip-components=1 --exclude=*.txt -xzvf -; chmod +x azcopy'",
       "azcopy cp \"./client.ovpn\" \"https://${var.azurerm_storage_account_name}.blob.core.windows.net/${var.azurerm_storage_container_name}${nonsensitive(var.azurerm_storage_account_sas)}\"",
       "cat client.ovpn",
