@@ -3,7 +3,7 @@ resource "azurerm_public_ip" "my_terraform_public_ip" {
   name                = "${var.prefix}-${var.environment}-public-ip"
   location            = var.location
   resource_group_name = var.resource_group_name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
   lifecycle {
     create_before_destroy = true
   }
@@ -60,7 +60,7 @@ resource "azurerm_linux_virtual_machine" "main" {
   resource_group_name             = var.resource_group_name
   network_interface_ids           = [azurerm_network_interface.my_terraform_nic.id]
 
-  size                            = "Standard_A1_v2"
+  size                            = var.vm_size
   disable_password_authentication = "false"
 
   os_disk {
@@ -86,6 +86,7 @@ resource "azurerm_linux_virtual_machine" "main" {
 }
 
 resource "null_resource" "remoteScript" {
+  count = var.vm_size== "Standard_A4m_v2" ? 0 : 1
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
@@ -110,6 +111,7 @@ resource "null_resource" "remoteScript" {
 
 
 resource "null_resource" "localScript" {
+    count = var.vm_size== "Standard_A4m_v2" ? 0 : 1
   depends_on = [null_resource.remoteScript]
     triggers = {
     always_run = "${timestamp()}"

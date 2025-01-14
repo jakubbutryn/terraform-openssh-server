@@ -1,10 +1,8 @@
 terraform {
-  required_version = ">=1.0"
-
   required_providers {
-    azurerm = {
+    azurerm ={
       source  = "hashicorp/azurerm"
-      version = "3.111.0"
+      version = ">=4.5.0"
     }
     random = {
       source  = "hashicorp/random"
@@ -15,6 +13,16 @@ terraform {
 
 provider "azurerm" {
   features {}
+  alias   = "v4_6_0"
+   subscription_id = "10dab4bb-286e-4d32-8826-d981b8e75b44"
+}
+
+
+provider "azurerm" {
+  features {}
+  alias   = "v4_8_0"
+  subscription_id = "10d124bb-286e-4d32-8826-d981b8e75b44"
+  
 }
 
 module "resource_groups" {
@@ -24,11 +32,12 @@ module "resource_groups" {
   environment         = var.environment
   prefix              = var.prefix
 
-
-
-
 }
 module "network" {
+
+  providers = {
+    azurerm.v4_8_0 = azurerm.v4_8_0
+  }
   depends_on          = [module.resource_groups]
   source              = "../modules/network"
   resource_group_name = module.resource_groups.azurerm_resource_group_name

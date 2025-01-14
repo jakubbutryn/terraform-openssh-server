@@ -1,10 +1,9 @@
 terraform {
-  required_version = ">=1.0"
-
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.111.0"
+      version = "4.8.0"
+      
     }
     random = {
       source  = "hashicorp/random"
@@ -15,6 +14,7 @@ terraform {
 
 provider "azurerm" {
   features {}
+   subscription_id = "10dab4bb-286e-4d32-8826-d981b8e75b44"
 }
 
 module "resource_groups" {

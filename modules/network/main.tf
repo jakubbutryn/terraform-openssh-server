@@ -9,14 +9,17 @@ resource "azurerm_virtual_network" "this" {
   depends_on = [ azurerm_network_security_group.this ]
 
 }
+resource "time_sleep" "wait_5_seconds" {
 
+  create_duration = "8s"
+}
 # Create subnet
 resource "azurerm_subnet" "this" {
   name                 = "${var.prefix}-${var.environment}-subnet"
   resource_group_name  =  var.resource_group_name
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [var.address_prefixes]
-  depends_on = [ azurerm_virtual_network.this ]
+  depends_on = [ time_sleep.wait_5_seconds ]
 
 }
 
